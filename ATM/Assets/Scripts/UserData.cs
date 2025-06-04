@@ -1,10 +1,11 @@
+[System.Serializable]
 public class UserData
 {
-    public string Name { get; private set; }
-    public int Cash { get; private set; }
-    public int Balance { get; private set; }
-
-    public UserData(string name, int cash, int balance)
+    public string Name;
+    public long Balance;
+    public long Cash;
+    
+    public UserData(string name, long cash, long balance)
     {
         Name = name;
         Cash = cash;

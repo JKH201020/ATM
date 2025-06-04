@@ -8,26 +8,59 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
     public UserData userData;
 
-    [Header("유저 정보")] [SerializeField] private string name;
-    [SerializeField] private int balance;
-    [SerializeField] private int cash;
-    
+    [SerializeField] private string name;
+    [SerializeField] private long balance;
+    [SerializeField] private long cash;
+
     [Header("텍스트UI 인스펙터에 연결")] [SerializeField]
     private TextMeshProUGUI nameText;
+
     [SerializeField] private TextMeshProUGUI balanceText;
     [SerializeField] private TextMeshProUGUI cashText;
-    
-    void Awake()
+
+    public GameObject panel;
+
+    void Awake() // 초기화
     {
         Instance = this;
         userData = new UserData(name, cash, balance);
         Refresh();
     }
 
-    public void Refresh()
+    public void DepositCash(int amount) // 입금
     {
-        nameText.text = name;
-        cashText.text = string.Format("{0:N0}", cash);
-        balanceText.text = string.Format("Balance   {0:N0}", balance);
+        if (userData.Cash - amount > 0)
+        {
+            userData.Cash -= amount;
+            userData.Balance += amount;
+        }
+        else
+        {
+            panel.SetActive(true);
+        }
+
+        Refresh();
+    }
+
+    public void withdrawalCash(int amount) // 출금
+    {
+        if (userData.Balance - amount> 0)
+        {
+            userData.Balance -= amount;
+            userData.Cash += amount;
+        }
+        else
+        {
+            panel.SetActive(true);
+        }
+
+        Refresh();
+    }
+
+    public void Refresh() // UI 업데이트
+    {
+        nameText.text = userData.Name;
+        cashText.text = string.Format("{0:N0}", userData.Cash);
+        balanceText.text = string.Format("Balance   {0:N0}", userData.Balance);
     }
 }
