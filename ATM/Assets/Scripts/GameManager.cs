@@ -6,11 +6,8 @@ using TMPro;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
-    public UserData userData;
 
-    [SerializeField] private string name;
-    [SerializeField] private long balance;
-    [SerializeField] private long cash;
+    public UserData userData;
 
     [Header("텍스트UI 인스펙터에 연결")] [SerializeField]
     private TextMeshProUGUI nameText;
@@ -23,13 +20,17 @@ public class GameManager : MonoBehaviour
     void Awake() // 초기화
     {
         Instance = this;
-        userData = new UserData(name, cash, balance);
+        if (userData == null)
+        {
+            userData = new UserData("", 0, 0);
+        }
+
         Refresh();
     }
 
     public void DepositCash(int amount) // 입금
     {
-        if (userData.Cash - amount > 0)
+        if (userData.Cash - amount >= 0)
         {
             userData.Cash -= amount;
             userData.Balance += amount;
@@ -44,7 +45,7 @@ public class GameManager : MonoBehaviour
 
     public void withdrawalCash(int amount) // 출금
     {
-        if (userData.Balance - amount> 0)
+        if (userData.Balance - amount >= 0)
         {
             userData.Balance -= amount;
             userData.Cash += amount;

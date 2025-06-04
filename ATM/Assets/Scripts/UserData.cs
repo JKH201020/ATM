@@ -2,10 +2,10 @@
 public class UserData
 {
     public string Name;
-    public long Balance;
-    public long Cash;
+    public int Balance;
+    public int Cash;
     
-    public UserData(string name, long cash, long balance)
+    public UserData(string name, int balance, int cash)
     {
         Name = name;
         Cash = cash;

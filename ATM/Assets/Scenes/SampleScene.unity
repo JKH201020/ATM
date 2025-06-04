@@ -2269,12 +2269,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   userData:
-    Name: 
-    Balance: 0
-    Cash: 0
-  name: "\uC5FC\uC608\uCC2C"
-  balance: 50000
-  cash: 100000
+    Name: "\uAC00\uB098\uB2E4"
+    Balance: 100000
+    Cash: 50000
   nameText: {fileID: 709382365}
   balanceText: {fileID: 1176759556}
   cashText: {fileID: 1977658873}
