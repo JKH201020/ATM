@@ -6,13 +6,13 @@ using TMPro;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
-    [SerializeField] private UserData userData;
+    public UserData userData;
 
     [Header("유저 정보")] [SerializeField] private string name;
     [SerializeField] private int balance;
     [SerializeField] private int cash;
     
-    [Header("텍스트 인스펙터 연결")] [SerializeField]
+    [Header("텍스트UI 인스펙터에 연결")] [SerializeField]
     private TextMeshProUGUI nameText;
     [SerializeField] private TextMeshProUGUI balanceText;
     [SerializeField] private TextMeshProUGUI cashText;
