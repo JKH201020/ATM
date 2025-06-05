@@ -5,11 +5,11 @@ using UnityEngine;
 
 public class PopupBank : MonoBehaviour
 {
-    [Header("오브젝트 할당")] [SerializeField] public GameObject deposit;
-    [SerializeField] public GameObject withdrawal;
-    [SerializeField] private GameObject atm;
-    [SerializeField] private TMP_InputField depositInputField;
-    [SerializeField] private TMP_InputField withdrawalInputField;
+    [Header("오브젝트 할당")] [SerializeField] public GameObject deposit; // 입금 오브젝트
+    [SerializeField] public GameObject withdrawal; // 출금 오브젝트
+    [SerializeField] private GameObject atm; // ATM 오브젝트
+    [SerializeField] private TMP_InputField depositInputField; // 입금 직접 입력 오브젝트
+    [SerializeField] private TMP_InputField withdrawalInputField; // 출금 직접 입력 오브젝트
     
     public void OnDepositButtonClick() // 입금으로 넘어가는 버튼
     {
@@ -25,10 +25,12 @@ public class PopupBank : MonoBehaviour
 
     public void OnBackButtonClick() // 뒤로 가기
     {
+        // 입금 오브젝트 활성화 되어있을 경우
         if (deposit.activeSelf == true)
         {
             deposit.SetActive(false);
         }
+        // 출금 오브젝트 활성화 되어있을 경우
         else if (withdrawal.activeSelf == true)
         {
             withdrawal.SetActive(false);
@@ -41,6 +43,7 @@ public class PopupBank : MonoBehaviour
     {
         string amountText = depositInputField.text;
 
+        // 입력 받은 값을 문자열에서 정수형으로 변환시켜 amount변수에 저장
         if (int.TryParse(amountText, out int amount))
         {
             GameManager.Instance.DepositCash(amount);
@@ -51,7 +54,8 @@ public class PopupBank : MonoBehaviour
     public void InputWithdrawalButtonClick() // 직접 입력 출금 버튼
     {
         string amountText = withdrawalInputField.text;
-
+        
+        // 입력 받은 값을 문자열에서 정수형으로 변환시켜 amount변수에 저장
         if (int.TryParse(amountText, out int amount))
         {
             GameManager.Instance.withdrawalCash(amount);
