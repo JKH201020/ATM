@@ -2276,6 +2276,7 @@ MonoBehaviour:
   balanceText: {fileID: 1176759556}
   cashText: {fileID: 1977658873}
   panel: {fileID: 12631144}
+  jsonFile: {fileID: 4900000, guid: 9b4c780fad99cba429cf4ee37328e1a9, type: 3}
 --- !u!224 &839418673
 RectTransform:
   m_ObjectHideFlags: 0

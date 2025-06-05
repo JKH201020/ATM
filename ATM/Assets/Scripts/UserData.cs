@@ -5,10 +5,14 @@ public class UserData
     public int Balance;
     public int Cash;
     
-    public UserData(string name, int balance, int cash)
+    public UserData(string name, int balance, int cash) // 생성자
     {
         Name = name;
-        Cash = cash;
         Balance = balance;
+        Cash = cash;
+    }
+
+    public UserData()
+    {
     }
 }
