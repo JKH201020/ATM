@@ -11,8 +11,4 @@ public class UserData
         Balance = balance;
         Cash = cash;
     }
-
-    public UserData()
-    {
-    }
 }

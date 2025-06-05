@@ -2269,14 +2269,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   userData:
-    Name: "\uAC00\uB098\uB2E4"
-    Balance: 300000
-    Cash: 100000
+    Name: "\uAC00\uB098"
+    Balance: 100000
+    Cash: 200000
   nameText: {fileID: 709382365}
   balanceText: {fileID: 1176759556}
   cashText: {fileID: 1977658873}
   panel: {fileID: 12631144}
-  jsonFile: {fileID: 4900000, guid: 9b4c780fad99cba429cf4ee37328e1a9, type: 3}
 --- !u!224 &839418673
 RectTransform:
   m_ObjectHideFlags: 0
