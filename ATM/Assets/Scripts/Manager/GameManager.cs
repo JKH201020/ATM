@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
     void Awake() // 초기화
     {
         Instance = this;
-        
+
         // persistentDataPath: 읽기 쓰기 가능한 저장 경로
         // Combine(저장경로, 생성할 파일 이름);
         path = Path.Combine(Application.persistentDataPath, "UserData.json");
@@ -103,11 +103,11 @@ public class GameManager : MonoBehaviour
                 userData.Cash = jsonLoad.Cash;
             }
         }
-        
+
         if (userData == null) // 저장된 데이터가 없다면
         {
             // 기본값으로 할당
-            userData = new UserData("", 0, 0);  
+            userData = new UserData("", 0, 0);
         }
     }
 

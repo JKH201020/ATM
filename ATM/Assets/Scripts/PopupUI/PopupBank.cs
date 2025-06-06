@@ -5,12 +5,16 @@ using UnityEngine;
 
 public class PopupBank : MonoBehaviour
 {
-    [Header("오브젝트 할당")] [SerializeField] public GameObject deposit; // 입금 오브젝트
+    [Header("PopupBank 씬 오브젝트 할당")] [SerializeField]
+    public GameObject deposit; // 입금 오브젝트
+
     [SerializeField] public GameObject withdrawal; // 출금 오브젝트
     [SerializeField] private GameObject atm; // ATM 오브젝트
     [SerializeField] private TMP_InputField depositInputField; // 입금 직접 입력 오브젝트
     [SerializeField] private TMP_InputField withdrawalInputField; // 출금 직접 입력 오브젝트
-    
+
+    #region PopupBank Scene UI
+
     public void OnDepositButtonClick() // 입금으로 넘어가는 버튼
     {
         deposit.SetActive(true);
@@ -39,7 +43,7 @@ public class PopupBank : MonoBehaviour
         atm.SetActive(true);
     }
 
-    public void InputDepositButtonClick()// 직접 입력 입금 버튼
+    public void InputDepositButtonClick() // 직접 입력 입금 버튼
     {
         string amountText = depositInputField.text;
 
@@ -54,7 +58,7 @@ public class PopupBank : MonoBehaviour
     public void InputWithdrawalButtonClick() // 직접 입력 출금 버튼
     {
         string amountText = withdrawalInputField.text;
-        
+
         // 입력 받은 값을 문자열에서 정수형으로 변환시켜 amount변수에 저장
         if (int.TryParse(amountText, out int amount))
         {
@@ -67,4 +71,6 @@ public class PopupBank : MonoBehaviour
     {
         GameManager.Instance.panel.SetActive(false);
     }
+
+    #endregion
 }
