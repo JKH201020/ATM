@@ -12,9 +12,7 @@ public class PopupBank : MonoBehaviour
     [SerializeField] private GameObject atm; // ATM 오브젝트
     [SerializeField] private TMP_InputField depositInputField; // 입금 직접 입력 오브젝트
     [SerializeField] private TMP_InputField withdrawalInputField; // 출금 직접 입력 오브젝트
-
-    #region PopupBank Scene UI
-
+    
     public void OnDepositButtonClick() // 입금으로 넘어가는 버튼
     {
         deposit.SetActive(true);
@@ -71,6 +69,4 @@ public class PopupBank : MonoBehaviour
     {
         GameManager.Instance.panel.SetActive(false);
     }
-
-    #endregion
 }

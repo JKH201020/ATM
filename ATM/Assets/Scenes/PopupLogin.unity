@@ -660,7 +660,7 @@ GameObject:
   - component: {fileID: 183044153}
   - component: {fileID: 183044152}
   m_Layer: 5
-  m_Name: SignUpButton
+  m_Name: CancelButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -732,7 +732,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1674784742}
         m_TargetAssemblyTypeName: PopupLogin, Assembly-CSharp
-        m_MethodName: OnSingUpButtonClick
+        m_MethodName: OnCancelButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1442,7 +1442,7 @@ GameObject:
   - component: {fileID: 452419027}
   - component: {fileID: 452419026}
   m_Layer: 5
-  m_Name: CancleButton
+  m_Name: SignUpButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1514,7 +1514,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1674784742}
         m_TargetAssemblyTypeName: PopupLogin, Assembly-CSharp
-        m_MethodName: OnCancelButtonClick
+        m_MethodName: OnSingUpButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3922,7 +3922,7 @@ GameObject:
   - component: {fileID: 901322329}
   - component: {fileID: 901322328}
   m_Layer: 5
-  m_Name: InputPS (1)
+  m_Name: InputPSConfirm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4991,7 +4991,7 @@ GameObject:
   - component: {fileID: 1267698656}
   - component: {fileID: 1267698655}
   m_Layer: 5
-  m_Name: InputID (1)
+  m_Name: InputName
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5964,8 +5964,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1c566df815028a41b0d744d7e4edff7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SignUpPanel: {fileID: 2146852299}
-  ErrorPanel: {fileID: 1804756375}
+  Panel: {fileID: 2146852299}
+  errorPanel: {fileID: 1804756375}
+  errorText: {fileID: 2052278475}
+  signUpID: {fileID: 2049895245}
+  signUpName: {fileID: 1267698655}
+  signUpPS: {fileID: 541223039}
+  signUpPSConfirm: {fileID: 901322328}
 --- !u!1 &1739519640
 GameObject:
   m_ObjectHideFlags: 0
