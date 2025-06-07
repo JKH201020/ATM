@@ -7,7 +7,7 @@ using UnityEngine;
 public class PopupLogin : MonoBehaviour
 {
     [Header("PopupLogin 씬 오브젝트 할당")] [SerializeField]
-    private GameObject Panel; // 회원가입 판넬
+    private GameObject panel; // 회원가입 판넬
 
     [SerializeField] private GameObject errorPanel; // 에러 판넬
     [SerializeField] private TextMeshProUGUI errorText; // 비번 잘못 입력 시 출력되는 문구
@@ -21,38 +21,38 @@ public class PopupLogin : MonoBehaviour
 
     private bool _signUpConfirm = false; // 회원가입이 확인되었는지
 
-    private void Start()
-    {
-        errorText.text = "";
-    }
-
     public void OnSingUpButtonClick()
     {
-        if (Panel.activeSelf == false)
+        if (panel.activeSelf == false)
         {
-            Panel.SetActive(true);
+            // 메인화면 Sign Up버튼 누르면 회원가입 정보 기입 초기화 
+            signUpID.text = "";
+            signUpName.text = "";
+            signUpPS.text = "";
+            signUpPSConfirm.text = "";
+            errorText.text = "";
+            
+            panel.SetActive(true);
         }
         else
         {
             SignUpSaveData();
-            
+
             if (_signUpConfirm == true)
             {
-                Panel.SetActive(false);
+                panel.SetActive(false);
             }
         }
     }
 
-    public void OnCancelButtonClick()
+    public void OnOkButtonClick() // 에러 판넬 Ok버튼
     {
-        if (Panel.activeSelf == true)
-        {
-            Panel.SetActive(false);
-        }
-        else if (errorPanel.activeSelf == true)
-        {
-            errorPanel.SetActive(false);
-        }
+        errorPanel.SetActive(false);
+    }
+
+    public void OnCancelButtonClick() // SignUp Cancel버튼 클릭
+    {
+        panel.SetActive(false);
     }
 
     public void SignUpSaveData()
@@ -61,7 +61,7 @@ public class PopupLogin : MonoBehaviour
         string name = signUpName.text;
         string passWord = signUpPS.text;
         string psConfirm = signUpPSConfirm.text;
-        
+
         if (passWord == psConfirm)
         {
             _signUpConfirm = true; // 회원가입 완료
