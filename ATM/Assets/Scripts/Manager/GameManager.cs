@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
 using UnityEngine;
@@ -7,67 +8,75 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    public UserData userData;
+    public UserData CurrentUserData { get; private set; } // 현재 로그인된 유저 데이터
+    public List<UserData> userDataList = new List<UserData>(); // 유저들 데이터 리스트
 
-    [Header("텍스트UI 인스펙터에 연결")] [SerializeField]
-    private TextMeshProUGUI nameText; // 유저 이름 출력 텍스트
+    // [Header("텍스트UI 인스펙터에 연결")] [SerializeField]
+    // private TextMeshProUGUI nameText; // 유저 이름 출력 텍스트
+    //
+    // [SerializeField] private TextMeshProUGUI balanceText; // 통장 잔액 출력 텍스트
+    // [SerializeField] private TextMeshProUGUI cashText; // 현금 잔액 출력 텍스트
 
-    [SerializeField] private TextMeshProUGUI balanceText; // 통장 잔액 출력 텍스트
-    [SerializeField] private TextMeshProUGUI cashText; // 현금 잔액 출력 텍스트
-
-    public GameObject panel; // 잔액부족 판넬
+    // public GameObject panel; // 잔액부족 판넬
 
     private string path; // 유저 데이터 저장/로드할 파일 경로
 
     void Awake() // 초기화
     {
-        Instance = this;
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
 
         // persistentDataPath: 읽기 쓰기 가능한 저장 경로
         // Combine(저장경로, 생성할 파일 이름);
         path = Path.Combine(Application.persistentDataPath, "UserData.json");
 
         LoadUserData(); // 저장된 데이터 불러옴
-        Refresh(); // UI 업데이트
     }
 
     #region 기능구현
 
     public void DepositCash(int amount) // 입금 - 버튼에 연결
     {
-        if (userData.Cash - amount >= 0)
+        if (CurrentUserData.Cash - amount >= 0)
         {
-            userData.Cash -= amount;
-            userData.Balance += amount;
+            CurrentUserData.Cash -= amount;
+            CurrentUserData.Balance += amount;
         }
-        else
-        {
-            panel.SetActive(true);
-        }
+        // else
+        // {
+        //     panel.SetActive(true);
+        // }
 
         Refresh();
     }
 
     public void withdrawalCash(int amount) // 출금 - 버튼에 연결
     {
-        if (userData.Balance - amount >= 0)
+        if (CurrentUserData.Balance - amount >= 0)
         {
-            userData.Balance -= amount;
-            userData.Cash += amount;
+            CurrentUserData.Balance -= amount;
+            CurrentUserData.Cash += amount;
         }
-        else
-        {
-            panel.SetActive(true);
-        }
+        // else
+        // {
+        //     panel.SetActive(true);
+        // }
 
         Refresh();
     }
 
     public void Refresh() // UI 업데이트
     {
-        nameText.text = userData.Name;
-        cashText.text = string.Format("{0:N0}", userData.Cash);
-        balanceText.text = string.Format("Balance      {0:N0}", userData.Balance);
+        // nameText.text = currentUserData.Name;
+        // cashText.text = string.Format("{0:N0}", currentUserData.Cash);
+        // balanceText.text = string.Format("Balance      {0:N0}", currentUserData.Balance);
 
         SaveUserData();
     }
@@ -80,7 +89,7 @@ public class GameManager : MonoBehaviour
     {
         // userData 인자를 Json형식의 문자열로 변환 -> 직렬화
         // Formatting.Indented 가독성을 높이기 위해 들여쓰기를 해줌 
-        string jsonSave = JsonConvert.SerializeObject(userData, Formatting.Indented);
+        string jsonSave = JsonConvert.SerializeObject(userDataList, Formatting.Indented);
 
         // path 경로에 파일이 없으면 jsonSave내용으로 생성하고, 파일이 있으면 내용을 덮어쓴다.
         File.WriteAllText(path, jsonSave);
@@ -93,22 +102,27 @@ public class GameManager : MonoBehaviour
             // 경로에 있는 파일의 모든 텍스트 내용을 읽어옴 -> 문자열 변수에 저장
             string json = File.ReadAllText(path);
             // json 형식의 문자열을 C# 객체(UserData 타입)로 변환 -> 역직렬화
-            UserData jsonLoad = JsonConvert.DeserializeObject<UserData>(json);
+            userDataList = JsonConvert.DeserializeObject<List<UserData>>(json);
 
-            if (jsonLoad != null) // 제이슨에 저장된 데이터 값이 있다면
-            {
-                // 불러온 데이터를 userData에 할당
-                userData.Name = jsonLoad.Name;
-                userData.Balance = jsonLoad.Balance;
-                userData.Cash = jsonLoad.Cash;
-            }
+            // if (userDataList != null) // 제이슨에 저장된 데이터 값이 있다면
+            // {
+            //     // 불러온 데이터를 userData에 할당
+            //     currentUserData.Name = userDataList.Name;
+            //     currentUserData.Balance = userDataList.Balance;
+            //     currentUserData.Cash = userDataList.Cash;
+            // }
         }
 
-        if (userData == null) // 저장된 데이터가 없다면
+        if (userDataList == null) // 저장된 데이터가 없다면
         {
             // 기본값으로 할당
-            userData = new UserData("", 0, 0);
+            userDataList = new List<UserData>();
         }
+    }
+
+    public void CurrentUserInfo(UserData userData) // 현재(로그인한) 유저 정보
+    {
+        CurrentUserData = userData;
     }
 
     #endregion

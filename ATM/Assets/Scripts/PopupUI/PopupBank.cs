@@ -13,6 +13,14 @@ public class PopupBank : MonoBehaviour
     [SerializeField] private TMP_InputField depositInputField; // 입금 직접 입력 오브젝트
     [SerializeField] private TMP_InputField withdrawalInputField; // 출금 직접 입력 오브젝트
     
+    [Header("텍스트UI 인스펙터에 연결")] [SerializeField]
+    private TextMeshProUGUI nameText; // 유저 이름 출력 텍스트
+
+    [SerializeField] private TextMeshProUGUI balanceText; // 통장 잔액 출력 텍스트
+    [SerializeField] private TextMeshProUGUI cashText; // 현금 잔액 출력 텍스트
+    
+    public GameObject panel; // 잔액부족 판넬
+    
     public void OnDepositButtonClick() // 입금으로 넘어가는 버튼
     {
         deposit.SetActive(true);
@@ -67,6 +75,6 @@ public class PopupBank : MonoBehaviour
 
     public void PanelOk() // 금액부족 판넬 Ok버튼
     {
-        GameManager.Instance.panel.SetActive(false);
+        // GameManager.Instance.panel.SetActive(false);
     }
 }

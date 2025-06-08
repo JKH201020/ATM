@@ -1,6 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -28,7 +26,7 @@ public class PopupLogin : MonoBehaviour
 
     private bool _signUpConfirm = false; // 회원가입이 확인되었는지
 
-    public void OnSingUpButtonClick()
+    public void OnSingUpButtonClick() // 회원가입 버튼
     {
         if (signUpPanel.activeSelf == false) // 회원가입 판넬이 비활성화라면
         {
@@ -55,13 +53,13 @@ public class PopupLogin : MonoBehaviour
 
     public void OnOkButtonClick() // 에러 판넬 Ok버튼
     {
-        if (loginErrorPanel.activeSelf == true)
+        if (loginErrorPanel.activeSelf == true) // 로그인 에러 판넬 활성화 상태라면
         {
-            loginErrorPanel.SetActive(false);
+            loginErrorPanel.SetActive(false); // 비활성화로 전환
         }
-        else
+        else // 로그인 에러 판넬 비활성화 상태라면
         {
-            signUpErrorPanel.SetActive(false); // 에러 판넬 비활성화
+            signUpErrorPanel.SetActive(false); // 회원가입 에러 판넬 비활성화
         }
     }
 
@@ -72,10 +70,10 @@ public class PopupLogin : MonoBehaviour
 
     public void SignUpSaveData() // 회원가입 데이터 저장
     {
-        string id = signUpID.text;
-        string name = signUpName.text;
-        string passWord = signUpPS.text;
-        string psConfirm = signUpPSConfirm.text;
+        string id = signUpID.text.Trim();
+        string name = signUpName.text.Trim();
+        string passWord = signUpPS.text.Trim();
+        string psConfirm = signUpPSConfirm.text.Trim();
 
         if (id.Contains(" ")) // 아이디에 공백이 있을 경우
         {
@@ -103,23 +101,27 @@ public class PopupLogin : MonoBehaviour
         _signUpConfirm = true; // 회원가입 완료
         signUpErrorText.text = ""; // 에러 문구 초기화
 
-        PlayerPrefs.SetString("ID", id); // 아이디 저장
-        PlayerPrefs.SetString("ID/Name", name); // 이름 저장
-        PlayerPrefs.SetString("ID/PassWord", passWord); // 비번 저장
-
-        PlayerPrefs.Save(); // 데이터 저장
+        UserData newUser = new UserData(id, name, passWord); // 신규 유저 등록
+        GameManager.Instance.userDataList.Add(newUser); // 유저 목록에 추가
+        GameManager.Instance.SaveUserData(); // 신규 유저 데이터 저장
     }
 
-    public void OnLoginButtonClick() // 로그인 버튼
+    public void OnLoginButtonClick() // 로그인 버튼 (json)
     {
-        string saveID = PlayerPrefs.GetString("ID");
-        string savePS = PlayerPrefs.GetString("ID/PassWord");
+        // loginErrorPanel의 자식인 TextMeshProUGUI 오브젝트를 저장;
         TextMeshProUGUI loginErrorText = loginErrorPanel.GetComponentInChildren<TextMeshProUGUI>();
 
-        if (saveID == loginID.text) // 저장된 아이디와 입력 아이디가 같으면
+        string userID = loginID.text.Trim();
+        string userPS = loginPS.text.Trim();
+
+        // 첫 번째 요소(w.ID)를 반환하거나 없으면 기본값(null)을 반환함
+        UserData savedUserData = GameManager.Instance.userDataList.FirstOrDefault(w => w.ID == userID);
+
+        if (savedUserData.ID == userID) // 저장된 아이디와 입력 아이디가 같으면
         {
-            if (savePS == loginPS.text) // 저장된 비번과 입력 비번이 같으면
+            if (savedUserData.PS == userPS) // 저장된 비번과 입력 비번이 같으면
             {
+                GameManager.Instance.CurrentUserInfo(savedUserData); // 게임매니저에 로그인한 유저를 현재 사용 유저로 저장
                 SceneManager.LoadScene("PopupBank"); // 다음 씬으로 이동
             }
             else
@@ -134,4 +136,29 @@ public class PopupLogin : MonoBehaviour
             loginErrorPanel.SetActive(true);
         }
     }
+
+    // public void OnLoginButtonClick() // 로그인 버튼
+    // {
+    //     string saveID = PlayerPrefs.GetString("ID");
+    //     string savePS = PlayerPrefs.GetString("ID/PassWord");
+    //     TextMeshProUGUI loginErrorText = loginErrorPanel.GetComponentInChildren<TextMeshProUGUI>();
+    //
+    //     if (saveID == loginID.text) // 저장된 아이디와 입력 아이디가 같으면
+    //     {
+    //         if (savePS == loginPS.text) // 저장된 비번과 입력 비번이 같으면
+    //         {
+    //             SceneManager.LoadScene("PopupBank"); // 다음 씬으로 이동
+    //         }
+    //         else
+    //         {
+    //             loginErrorText.text = "비밀번호를 잘못 입력하셨습니다.";
+    //             loginErrorPanel.SetActive(true);
+    //         }
+    //     }
+    //     else
+    //     {
+    //         loginErrorText.text = "해당 아이디가 없습니다.";
+    //         loginErrorPanel.SetActive(true);
+    //     }
+    // }
 }

@@ -1575,7 +1575,7 @@ GameObject:
   - component: {fileID: 504278555}
   - component: {fileID: 504278554}
   m_Layer: 5
-  m_Name: InputID
+  m_Name: InputLoginID
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2401,7 +2401,7 @@ GameObject:
   - component: {fileID: 633571278}
   - component: {fileID: 633571279}
   m_Layer: 5
-  m_Name: InputText
+  m_Name: InputLoginText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3044,7 +3044,7 @@ GameObject:
   - component: {fileID: 726027046}
   - component: {fileID: 726027045}
   m_Layer: 5
-  m_Name: IDText
+  m_Name: Text-LoginID
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3445,7 +3445,7 @@ GameObject:
   - component: {fileID: 824494354}
   - component: {fileID: 824494355}
   m_Layer: 5
-  m_Name: LoginText
+  m_Name: Login
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4216,7 +4216,7 @@ GameObject:
   - component: {fileID: 1009525454}
   - component: {fileID: 1009525453}
   m_Layer: 5
-  m_Name: PSText
+  m_Name: Text-LoginPS
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4417,7 +4417,7 @@ GameObject:
   - component: {fileID: 1020507982}
   - component: {fileID: 1020507981}
   m_Layer: 5
-  m_Name: SignUpButton
+  m_Name: Button-SignUp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4857,6 +4857,55 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1147522063}
   m_CullTransparentMesh: 1
+--- !u!1 &1151578618
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1151578620}
+  - component: {fileID: 1151578619}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1151578619
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1151578618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 390b98231f010c341bafd2cd45ffedf3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  userDataList: []
+--- !u!224 &1151578620
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1151578618}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1258455571
 GameObject:
   m_ObjectHideFlags: 0
@@ -4870,7 +4919,7 @@ GameObject:
   - component: {fileID: 1258455574}
   - component: {fileID: 1258455573}
   m_Layer: 5
-  m_Name: LoginButton
+  m_Name: Button-Login
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6183,7 +6232,7 @@ MonoBehaviour:
   signUpPSConfirm: {fileID: 901322328}
   signUpPanel: {fileID: 2146852299}
   signUpErrorPanel: {fileID: 1804756375}
-  signUpErrorText: {fileID: 2013068790}
+  signUpErrorText: {fileID: 2052278475}
 --- !u!1 &1739519640
 GameObject:
   m_ObjectHideFlags: 0
@@ -6612,7 +6661,7 @@ GameObject:
   - component: {fileID: 1835103796}
   - component: {fileID: 1835103795}
   m_Layer: 5
-  m_Name: InputPS
+  m_Name: InputLoginPS
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7802,3 +7851,4 @@ SceneRoots:
   - {fileID: 189719158}
   - {fileID: 121230931}
   - {fileID: 237398200}
+  - {fileID: 1151578620}
