@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
@@ -11,16 +12,8 @@ public class GameManager : MonoBehaviour
     public UserData CurrentUserData { get; private set; } // 현재 로그인된 유저 데이터
     public List<UserData> userDataList = new List<UserData>(); // 유저들 데이터 리스트
 
-    // [Header("텍스트UI 인스펙터에 연결")] [SerializeField]
-    // private TextMeshProUGUI nameText; // 유저 이름 출력 텍스트
-    //
-    // [SerializeField] private TextMeshProUGUI balanceText; // 통장 잔액 출력 텍스트
-    // [SerializeField] private TextMeshProUGUI cashText; // 현금 잔액 출력 텍스트
-
-    // public GameObject panel; // 잔액부족 판넬
-
     private string path; // 유저 데이터 저장/로드할 파일 경로
-
+    
     void Awake() // 초기화
     {
         if (Instance == null)
@@ -44,41 +37,20 @@ public class GameManager : MonoBehaviour
 
     public void DepositCash(int amount) // 입금 - 버튼에 연결
     {
-        if (CurrentUserData.Cash - amount >= 0)
+        if (CurrentUserData.Cash >= amount)
         {
             CurrentUserData.Cash -= amount;
             CurrentUserData.Balance += amount;
         }
-        // else
-        // {
-        //     panel.SetActive(true);
-        // }
-
-        Refresh();
     }
 
-    public void withdrawalCash(int amount) // 출금 - 버튼에 연결
+    public void WithdrawalCash(int amount) // 출금 - 버튼에 연결
     {
-        if (CurrentUserData.Balance - amount >= 0)
+        if (CurrentUserData.Balance >= amount)
         {
             CurrentUserData.Balance -= amount;
             CurrentUserData.Cash += amount;
         }
-        // else
-        // {
-        //     panel.SetActive(true);
-        // }
-
-        Refresh();
-    }
-
-    public void Refresh() // UI 업데이트
-    {
-        // nameText.text = currentUserData.Name;
-        // cashText.text = string.Format("{0:N0}", currentUserData.Cash);
-        // balanceText.text = string.Format("Balance      {0:N0}", currentUserData.Balance);
-
-        SaveUserData();
     }
 
     #endregion
@@ -103,14 +75,6 @@ public class GameManager : MonoBehaviour
             string json = File.ReadAllText(path);
             // json 형식의 문자열을 C# 객체(UserData 타입)로 변환 -> 역직렬화
             userDataList = JsonConvert.DeserializeObject<List<UserData>>(json);
-
-            // if (userDataList != null) // 제이슨에 저장된 데이터 값이 있다면
-            // {
-            //     // 불러온 데이터를 userData에 할당
-            //     currentUserData.Name = userDataList.Name;
-            //     currentUserData.Balance = userDataList.Balance;
-            //     currentUserData.Cash = userDataList.Cash;
-            // }
         }
 
         if (userDataList == null) // 저장된 데이터가 없다면
