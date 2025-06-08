@@ -26,6 +26,21 @@ public class PopupLogin : MonoBehaviour
 
     private bool _signUpConfirm = false; // 회원가입이 확인되었는지
 
+    // 비밀번호 TMP_InputField가 한글로 입력되면 *이 한번에 8개 출력되는 것을 방지
+    // 게임 플레이중에는 키보드 입력이 텍스트를 의도하는 것이 아니기 때문에 unity에서 자동으로 IME 기능을 비활성화
+    void Update()
+    {
+        if (loginPS.isFocused) // password 에 포커스가 되어있을때
+        {
+            // 한글 기준으로 한 문자(김 <- 이런식으로)를 완성해야 '*'하나로 인식하는 것 같음
+            Input.imeCompositionMode = IMECompositionMode.Off; // IME변환 끔
+        }
+        else
+        {
+            Input.imeCompositionMode = IMECompositionMode.Auto;
+        }
+    }
+
     public void OnSingUpButtonClick() // 회원가입 버튼
     {
         if (signUpPanel.activeSelf == false) // 회원가입 판넬이 비활성화라면
