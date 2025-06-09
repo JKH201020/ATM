@@ -53,6 +53,8 @@ public class GameManager : MonoBehaviour
 
 	public void RemittanceCash(UserData targetUser, int amount) // 송금(정산) - 버튼에 연결
     {
+        if (targetUser == null) return;
+        
         if (CurrentUserData.cash >= amount)
         {
             CurrentUserData.cash -= amount;

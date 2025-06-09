@@ -345,7 +345,7 @@ GameObject:
   - component: {fileID: 109783474}
   - component: {fileID: 109783473}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Text-Error
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -390,7 +390,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uC794\uC561\uC774 \uBD80\uC871\uD569\uB2C8\uB2E4."
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 081cd9272212c3a42b262306404a3904, type: 2}
   m_sharedMaterial: {fileID: -4907509699424772725, guid: 081cd9272212c3a42b262306404a3904, type: 2}
@@ -4528,6 +4528,7 @@ MonoBehaviour:
   withdrawalInputField: {fileID: 1777355194}
   remittanceTargetInputField: {fileID: 558301718}
   remittanceCashInputField: {fileID: 577070731}
+  errorText: {fileID: 109783473}
   nameText: {fileID: 709382365}
   balanceText: {fileID: 1176759556}
   cashText: {fileID: 1977658873}

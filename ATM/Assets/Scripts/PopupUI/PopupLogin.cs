@@ -80,26 +80,27 @@ public class PopupLogin : MonoBehaviour
 
     private void SignUpSaveData() // 회원가입 데이터 저장
     {
-        string id = signUpID.text.Trim(); // 공백이 포함되어 있으면 공백 제거한 상태로 저장
-        string name = signUpName.text.Trim();
-        string passWord = signUpPS.text.Trim();
-        string psConfirm = signUpPSConfirm.text.Trim();
+        // 공백이 포함되어 있으면 공백 제거한 상태로 저장
+        string newID = signUpID.text.Trim(); 
+        string newName = signUpName.text.Trim();
+        string newPassWord = signUpPS.text.Trim();
+        string newPSConfirm = signUpPSConfirm.text.Trim();
 
-        if (id.Contains(" ")) // 아이디에 공백이 있을 경우
+        if (newID.Contains(" ")) // 아이디에 공백이 있을 경우
         {
             signUpErrorPanel.SetActive(true); // 에러 판넬 활성화
             signUpErrorText.text = "아이디를 확인해주세요."; // 에러문구
             return;
         }
 
-        if (name.Contains(" ")) // 이름에 공백이 있을 경우
+        if (newName.Contains(" ")) // 이름에 공백이 있을 경우
         {
             signUpErrorPanel.SetActive(true); // 에러 판넬 활성화
             signUpErrorText.text = "이름을 확인해주세요."; // 에러문구
             return;
         }
 
-        if (passWord != psConfirm) // 비밀번호와 확인 비밀번호가 다를 경우
+        if (newPassWord != newPSConfirm) // 비밀번호와 확인 비밀번호가 다를 경우
         {
             signUpErrorPanel.SetActive(true); // 에러 판넬 활성화
             signUpErrorText.text = "비밀번호를 확인해주세요."; // 에러문구
@@ -111,7 +112,7 @@ public class PopupLogin : MonoBehaviour
         _signUpConfirm = true; // 회원가입 완료
         signUpErrorText.text = ""; // 에러 문구 초기화
 
-        UserData newUser = new UserData(id, name, passWord); // 신규 유저 등록
+        UserData newUser = new UserData(newID, newName, newPassWord); // 신규 유저 등록
         GameManager.Instance.userDataList.Add(newUser); // 유저 목록에 추가
         GameManager.Instance.SaveUserData(); // 신규 유저 데이터 저장
     }
