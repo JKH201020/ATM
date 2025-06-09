@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     public List<UserData> userDataList = new List<UserData>(); // 유저들 데이터 리스트
 
     private string _path; // 유저 데이터 저장/로드할 파일 경로
-    
+
     void Awake() // 초기화
     {
         if (Instance == null)
@@ -23,10 +23,12 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
-        // persistentDataPath: 읽기 쓰기 가능한 저장 경로
+        
         // Combine(저장경로, 생성할 파일 이름);
-        _path = Path.Combine(Application.persistentDataPath, "UserData.json");
+        // Application.persistentDataPath - 모바일에서 경로 지정할 때 사용하는 것 같음 - 읽기 쓰기 가능한 저장 경로
+        // Directory.GetCurrentDirectory() - 프로젝트 최상단에 저장하는 경로
+        _path = Path.Combine(Directory.GetCurrentDirectory(), "UserData.json");
+        Debug.Log(_path); // 제이슨 저장 경로
 
         LoadUserData(); // 저장된 데이터 불러옴
     }
@@ -35,7 +37,7 @@ public class GameManager : MonoBehaviour
 
     public void DepositCash(int amount) // 입금(정산) - 버튼에 연결
     {
-        if (CurrentUserData.cash >= amount)
+        if (CurrentUserData.cash >= amount) // 현재 유저 현금 >= 해당 입금 금액
         {
             CurrentUserData.cash -= amount;
             CurrentUserData.balance += amount;
@@ -44,24 +46,24 @@ public class GameManager : MonoBehaviour
 
     public void WithdrawalCash(int amount) // 출금(정산) - 버튼에 연결
     {
-        if (CurrentUserData.balance >= amount)
+        if (CurrentUserData.balance >= amount) // 현재 유저 통장 >= 해당 출금 금액
         {
             CurrentUserData.balance -= amount;
             CurrentUserData.cash += amount;
         }
     }
 
-	public void RemittanceCash(UserData targetUser, int amount) // 송금(정산) - 버튼에 연결
+    public void RemittanceCash(UserData targetUser, int amount) // 송금(정산) - 버튼에 연결
     {
-        if (targetUser == null) return;
-        
-        if (CurrentUserData.cash >= amount)
+        if (targetUser == null) return; // 저장된 유저 데이터가 없다면 종료
+
+        if (CurrentUserData.balance >= amount) // 현재 유저 통장 금액 >= 송금 금액
         {
-            CurrentUserData.cash -= amount;
-            targetUser.balance += amount; // 송금 대상 통장에 금액 
+            CurrentUserData.balance -= amount;
+            targetUser.balance += amount; // 송금 대상 통장에 금액 송금
         }
     }
-    
+
     #endregion
 
     #region json으로 저장
@@ -88,41 +90,14 @@ public class GameManager : MonoBehaviour
 
         if (userDataList == null) // 저장된 데이터가 없다면
         {
-            // 기본값으로 할당
-            userDataList = new List<UserData>();
+            userDataList = new List<UserData>(); // 기본값으로 할당
         }
     }
 
     public void CurrentUserInfo(UserData userData) // 현재(로그인한) 유저 정보
     {
-        CurrentUserData = userData;
+        CurrentUserData = userData; // 로그인한 유저 정보를 현재 유저정보에 저장
     }
-
-    #endregion
-
-    #region 데이터 세이브, 로드
-
-// public void SaveUserData() // 유저 데이터 저장
-// {
-//     // 첫 번째 인자는 "Key"라는 저장 공간이고 "Key"의 이름에 따라 저장된 값을 불러온다.
-//     // 두 번째 인자는 저장할 데이터를 입력한다.
-//     PlayerPrefs.SetString("Name", userData.Name);
-//     PlayerPrefs.SetInt("Balance", userData.Balance);
-//     PlayerPrefs.SetInt("Cash", userData.Cash);
-//
-//     PlayerPrefs.Save(); // 위의 내용들을 저장
-// }
-//
-// public void LoadUserData() // 유저 데이터 불러오기
-// {
-//     // "Key"의 이름에 맞는 저장된 값을 불러온다.
-//     // 저장된 값이 없을 경우 두 번째 인자를 기본값으로 불러온다.
-//     userData.Name = PlayerPrefs.GetString("Name", "");
-//     userData.Balance = PlayerPrefs.GetInt("Balance", 0);
-//     userData.Cash = PlayerPrefs.GetInt("Cash", 0);
-//
-//     Refresh();
-// }
 
     #endregion
 }

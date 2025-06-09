@@ -17,7 +17,7 @@ public class PopupBank : MonoBehaviour
     [SerializeField] private TMP_InputField remittanceCashInputField; // 송금 금액 오브젝트
     [SerializeField] private TextMeshProUGUI errorText; // 에러 문구 오브젝트
 
-    [Header("텍스트UI 인스펙터에 연결")] [SerializeField]
+    [Header("화면UI에 텍스트 연결")] [SerializeField]
     private TextMeshProUGUI nameText; // 유저 이름 출력 텍스트
 
     [SerializeField] private TextMeshProUGUI balanceText; // 통장 잔액 출력 텍스트
@@ -36,6 +36,7 @@ public class PopupBank : MonoBehaviour
 
     private void CurrentUserInfo() // 현재 유저 정보
     {
+        // 게임매니저에서 저장된 현재 유저 정보를 화면 텍스트 UI에 연결
         nameText.text = GameManager.Instance.CurrentUserData.name;
         balanceText.text = $"Balance   {GameManager.Instance.CurrentUserData.balance:N0}";
         cashText.text = $"{GameManager.Instance.CurrentUserData.cash:N0}";
