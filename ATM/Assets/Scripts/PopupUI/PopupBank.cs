@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
@@ -10,10 +11,13 @@ public class PopupBank : MonoBehaviour
     public GameObject deposit; // 입금 오브젝트
 
     [SerializeField] public GameObject withdrawal; // 출금 오브젝트
+    [SerializeField] public GameObject remittance; // 송금 오브젝트
     [SerializeField] private GameObject atm; // ATM 오브젝트
     [SerializeField] private GameObject bgPanel; // 잔액부족 판넬
     [SerializeField] private TMP_InputField depositInputField; // 입금 직접 입력 오브젝트
     [SerializeField] private TMP_InputField withdrawalInputField; // 출금 직접 입력 오브젝트
+    [SerializeField] private TMP_InputField remittanceTargetInputField; // 송금 대상 오브젝트
+    [SerializeField] private TMP_InputField remittanceCashInputField; // 송금 금액 오브젝트
 
     [Header("텍스트UI 인스펙터에 연결")] [SerializeField]
     private TextMeshProUGUI nameText; // 유저 이름 출력 텍스트
@@ -26,40 +30,42 @@ public class PopupBank : MonoBehaviour
         Refresh();
     }
 
-    public void OnDepositButtonClick() // 입금으로 넘어가는 버튼
+    public void Refresh() // UI 업데이트
+    {
+        CurrentUserInfo();
+        GameManager.Instance.SaveUserData();
+    }
+
+    public void CurrentUserInfo() // 현재 유저 정보
+    {
+        nameText.text = GameManager.Instance.CurrentUserData.Name;
+        balanceText.text = string.Format("Balance   {0:N0}", GameManager.Instance.CurrentUserData.Balance);
+        cashText.text = string.Format("{0:N0}", GameManager.Instance.CurrentUserData.Cash);
+    }
+
+    public void OnDepositButtonClick() // 입금 창으로 넘어가는 버튼
     {
         deposit.SetActive(true);
         atm.SetActive(false);
     }
 
-    public void OnWithdrawalButtonClick() // 출금으로 넘어가는 버튼
+    public void OnWithdrawalButtonClick() // 출금 창으로 넘어가는 버튼
     {
         withdrawal.SetActive(true);
         atm.SetActive(false);
     }
 
-    public void OnBackButtonClick() // 뒤로 가기
+    public void OnRemittanceButtonClick() // 송금 창으로 넘어가는 버튼
     {
-        // 입금 오브젝트 활성화 되어있을 경우
-        if (deposit.activeSelf == true)
-        {
-            deposit.SetActive(false);
-        }
-        // 출금 오브젝트 활성화 되어있을 경우
-        else if (withdrawal.activeSelf == true)
-        {
-            withdrawal.SetActive(false);
-        }
-
-        atm.SetActive(true);
-        Refresh();
+        remittance.SetActive(true);
+        atm.SetActive(false);
     }
 
     public void OnMoneyChangeButtonClick(int amount) // 입출금(10000, 30000, 50000) 버튼
     {
         if (deposit.activeSelf == true) // 입금 창일 때
         {
-            if (GameManager.Instance.CurrentUserData.Cash >= amount)
+            if (GameManager.Instance.CurrentUserData.Cash >= amount) // 현금 >= 입금 금액
             {
                 GameManager.Instance.DepositCash(amount);
             }
@@ -70,9 +76,32 @@ public class PopupBank : MonoBehaviour
         }
         else if (withdrawal.activeSelf == true) // 출금 창일 때
         {
-            if (GameManager.Instance.CurrentUserData.Balance >= amount)
+            if (GameManager.Instance.CurrentUserData.Balance >= amount) // 통장 금액 >= 출금 금액
             {
                 GameManager.Instance.WithdrawalCash(amount);
+            }
+            else
+            {
+                bgPanel.SetActive(true);
+            }
+        }
+
+        Refresh();
+    }
+
+
+    public void OnRemittanceCashButtonClick() // 송금하는 버튼
+    {
+        string targetData = remittanceTargetInputField.text.Trim();
+
+        UserData targetUser =
+            GameManager.Instance.userDataList.FirstOrDefault(w => w.Name == targetData || w.ID == targetData);
+
+        if (int.TryParse(remittanceCashInputField.text, out int remittanceCash)) // 송금 금액 숫자형으로 변환
+        {
+            if (GameManager.Instance.CurrentUserData.Cash >= remittanceCash)
+            {
+                GameManager.Instance.RemittanceCash(targetUser, remittanceCash);
             }
             else
             {
@@ -114,16 +143,22 @@ public class PopupBank : MonoBehaviour
         bgPanel.SetActive(false);
     }
 
-    public void CurrentUserInfo() // 현재 유저 정보
+    public void OnBackButtonClick() // 뒤로 가기
     {
-        nameText.text = GameManager.Instance.CurrentUserData.Name;
-        balanceText.text = string.Format("Balance   {0:N0}", GameManager.Instance.CurrentUserData.Balance);
-        cashText.text = string.Format("{0:N0}", GameManager.Instance.CurrentUserData.Cash);
-    }
+        if (deposit.activeSelf == true) // 입금 오브젝트 활성화 되어있을 경우
+        {
+            deposit.SetActive(false);
+        }
+        else if (withdrawal.activeSelf == true) // 출금 오브젝트 활성화 되어있을 경우
+        {
+            withdrawal.SetActive(false);
+        }
+        else if (remittance.activeSelf == true) // 송금 오브젝트 활성화 되어있을 경우
+        {
+            remittance.SetActive(false);
+        }
 
-    public void Refresh() // UI 업데이트
-    {
-        CurrentUserInfo();
-        GameManager.Instance.SaveUserData();
+        atm.SetActive(true);
+        Refresh();
     }
 }

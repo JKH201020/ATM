@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour
 
     #region 기능구현
 
-    public void DepositCash(int amount) // 입금 - 버튼에 연결
+    public void DepositCash(int amount) // 입금(정산) - 버튼에 연결
     {
         if (CurrentUserData.Cash >= amount)
         {
@@ -44,7 +44,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void WithdrawalCash(int amount) // 출금 - 버튼에 연결
+    public void WithdrawalCash(int amount) // 출금(정산) - 버튼에 연결
     {
         if (CurrentUserData.Balance >= amount)
         {
@@ -53,6 +53,15 @@ public class GameManager : MonoBehaviour
         }
     }
 
+	public void RemittanceCash(UserData targetUser, int amount) // 송금(정산) - 버튼에 연결
+    {
+        if (CurrentUserData.Cash >= amount)
+        {
+            CurrentUserData.Cash -= amount;
+            targetUser.Balance += amount; // 송금 대상 통장에 금액 
+        }
+    }
+    
     #endregion
 
     #region json으로 저장
