@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using TMPro;
-using UnityEditor;
 using UnityEngine;
 
 public class PopupBank : MonoBehaviour
@@ -30,17 +27,17 @@ public class PopupBank : MonoBehaviour
         Refresh();
     }
 
-    public void Refresh() // UI 업데이트
+    private void Refresh() // UI 업데이트
     {
         CurrentUserInfo();
         GameManager.Instance.SaveUserData();
     }
 
-    public void CurrentUserInfo() // 현재 유저 정보
+    private void CurrentUserInfo() // 현재 유저 정보
     {
-        nameText.text = GameManager.Instance.CurrentUserData.Name;
-        balanceText.text = string.Format("Balance   {0:N0}", GameManager.Instance.CurrentUserData.Balance);
-        cashText.text = string.Format("{0:N0}", GameManager.Instance.CurrentUserData.Cash);
+        nameText.text = GameManager.Instance.CurrentUserData.name;
+        balanceText.text = $"Balance   {GameManager.Instance.CurrentUserData.balance:N0}";
+        cashText.text = $"{GameManager.Instance.CurrentUserData.cash:N0}";
     }
 
     public void OnDepositButtonClick() // 입금 창으로 넘어가는 버튼
@@ -63,9 +60,9 @@ public class PopupBank : MonoBehaviour
 
     public void OnMoneyChangeButtonClick(int amount) // 입출금(10000, 30000, 50000) 버튼
     {
-        if (deposit.activeSelf == true) // 입금 창일 때
+        if (deposit.activeSelf) // 입금 창일 때
         {
-            if (GameManager.Instance.CurrentUserData.Cash >= amount) // 현금 >= 입금 금액
+            if (GameManager.Instance.CurrentUserData.cash >= amount) // 현금 >= 입금 금액
             {
                 GameManager.Instance.DepositCash(amount);
             }
@@ -74,9 +71,9 @@ public class PopupBank : MonoBehaviour
                 bgPanel.SetActive(true);
             }
         }
-        else if (withdrawal.activeSelf == true) // 출금 창일 때
+        else if (withdrawal.activeSelf) // 출금 창일 때
         {
-            if (GameManager.Instance.CurrentUserData.Balance >= amount) // 통장 금액 >= 출금 금액
+            if (GameManager.Instance.CurrentUserData.balance >= amount) // 통장 금액 >= 출금 금액
             {
                 GameManager.Instance.WithdrawalCash(amount);
             }
@@ -95,11 +92,11 @@ public class PopupBank : MonoBehaviour
         string targetData = remittanceTargetInputField.text.Trim();
 
         UserData targetUser =
-            GameManager.Instance.userDataList.FirstOrDefault(w => w.Name == targetData || w.ID == targetData);
+            GameManager.Instance.userDataList.FirstOrDefault(w => w.name == targetData || w.id == targetData);
 
         if (int.TryParse(remittanceCashInputField.text, out int remittanceCash)) // 송금 금액 숫자형으로 변환
         {
-            if (GameManager.Instance.CurrentUserData.Cash >= remittanceCash)
+            if (GameManager.Instance.CurrentUserData.cash >= remittanceCash)
             {
                 GameManager.Instance.RemittanceCash(targetUser, remittanceCash);
             }
@@ -145,15 +142,15 @@ public class PopupBank : MonoBehaviour
 
     public void OnBackButtonClick() // 뒤로 가기
     {
-        if (deposit.activeSelf == true) // 입금 오브젝트 활성화 되어있을 경우
+        if (deposit.activeSelf) // 입금 오브젝트 활성화 되어있을 경우
         {
             deposit.SetActive(false);
         }
-        else if (withdrawal.activeSelf == true) // 출금 오브젝트 활성화 되어있을 경우
+        else if (withdrawal.activeSelf) // 출금 오브젝트 활성화 되어있을 경우
         {
             withdrawal.SetActive(false);
         }
-        else if (remittance.activeSelf == true) // 송금 오브젝트 활성화 되어있을 경우
+        else if (remittance.activeSelf) // 송금 오브젝트 활성화 되어있을 경우
         {
             remittance.SetActive(false);
         }

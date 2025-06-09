@@ -1,9 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
 using UnityEngine;
-using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -12,7 +10,7 @@ public class GameManager : MonoBehaviour
     public UserData CurrentUserData { get; private set; } // 현재 로그인된 유저 데이터
     public List<UserData> userDataList = new List<UserData>(); // 유저들 데이터 리스트
 
-    private string path; // 유저 데이터 저장/로드할 파일 경로
+    private string _path; // 유저 데이터 저장/로드할 파일 경로
     
     void Awake() // 초기화
     {
@@ -28,7 +26,7 @@ public class GameManager : MonoBehaviour
 
         // persistentDataPath: 읽기 쓰기 가능한 저장 경로
         // Combine(저장경로, 생성할 파일 이름);
-        path = Path.Combine(Application.persistentDataPath, "UserData.json");
+        _path = Path.Combine(Application.persistentDataPath, "UserData.json");
 
         LoadUserData(); // 저장된 데이터 불러옴
     }
@@ -37,28 +35,28 @@ public class GameManager : MonoBehaviour
 
     public void DepositCash(int amount) // 입금(정산) - 버튼에 연결
     {
-        if (CurrentUserData.Cash >= amount)
+        if (CurrentUserData.cash >= amount)
         {
-            CurrentUserData.Cash -= amount;
-            CurrentUserData.Balance += amount;
+            CurrentUserData.cash -= amount;
+            CurrentUserData.balance += amount;
         }
     }
 
     public void WithdrawalCash(int amount) // 출금(정산) - 버튼에 연결
     {
-        if (CurrentUserData.Balance >= amount)
+        if (CurrentUserData.balance >= amount)
         {
-            CurrentUserData.Balance -= amount;
-            CurrentUserData.Cash += amount;
+            CurrentUserData.balance -= amount;
+            CurrentUserData.cash += amount;
         }
     }
 
 	public void RemittanceCash(UserData targetUser, int amount) // 송금(정산) - 버튼에 연결
     {
-        if (CurrentUserData.Cash >= amount)
+        if (CurrentUserData.cash >= amount)
         {
-            CurrentUserData.Cash -= amount;
-            targetUser.Balance += amount; // 송금 대상 통장에 금액 
+            CurrentUserData.cash -= amount;
+            targetUser.balance += amount; // 송금 대상 통장에 금액 
         }
     }
     
@@ -73,15 +71,15 @@ public class GameManager : MonoBehaviour
         string jsonSave = JsonConvert.SerializeObject(userDataList, Formatting.Indented);
 
         // path 경로에 파일이 없으면 jsonSave내용으로 생성하고, 파일이 있으면 내용을 덮어쓴다.
-        File.WriteAllText(path, jsonSave);
+        File.WriteAllText(_path, jsonSave);
     }
 
-    public void LoadUserData() // 유저 데이터 불러오기
+    private void LoadUserData() // 유저 데이터 불러오기
     {
-        if (File.Exists(path)) // 경로에 파일이 존재하면
+        if (File.Exists(_path)) // 경로에 파일이 존재하면
         {
             // 경로에 있는 파일의 모든 텍스트 내용을 읽어옴 -> 문자열 변수에 저장
-            string json = File.ReadAllText(path);
+            string json = File.ReadAllText(_path);
             // json 형식의 문자열을 C# 객체(UserData 타입)로 변환 -> 역직렬화
             userDataList = JsonConvert.DeserializeObject<List<UserData>>(json);
         }

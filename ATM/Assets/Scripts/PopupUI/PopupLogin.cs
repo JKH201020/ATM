@@ -24,21 +24,16 @@ public class PopupLogin : MonoBehaviour
     [SerializeField] private GameObject signUpErrorPanel; // 에러 판넬
     [SerializeField] private TextMeshProUGUI signUpErrorText; // 비번 잘못 입력 시 출력되는 문구
 
-    private bool _signUpConfirm = false; // 회원가입이 확인되었는지
+    private bool _signUpConfirm; // 회원가입이 확인되었는지
 
     // 비밀번호 TMP_InputField가 한글로 입력되면 *이 한번에 8개 출력되는 것을 방지
     // 게임 플레이중에는 키보드 입력이 텍스트를 의도하는 것이 아니기 때문에 unity에서 자동으로 IME 기능을 비활성화
     void Update()
     {
-        if (loginPS.isFocused) // password 에 포커스가 되어있을때
-        {
-            // 한글 기준으로 한 문자(김 <- 이런식으로)를 완성해야 '*'하나로 인식하는 것 같음
-            Input.imeCompositionMode = IMECompositionMode.Off; // IME변환 끔
-        }
-        else
-        {
-            Input.imeCompositionMode = IMECompositionMode.Auto;
-        }
+        // 한글 기준으로 한 문자(김 <- 이런식으로)를 완성해야 '*'하나로 인식하는 것 같음
+        // 비번 입력 작성 칸 선택 중이면 IME 끔
+        Input.imeCompositionMode =
+            loginPS.isFocused ? IMECompositionMode.Off : Input.imeCompositionMode = IMECompositionMode.Auto;
     }
 
     public void OnSingUpButtonClick() // 회원가입 버튼
@@ -58,7 +53,7 @@ public class PopupLogin : MonoBehaviour
         {
             SignUpSaveData(); // 회원가입 데이터 저장
 
-            if (_signUpConfirm == true) // 회원가입 완료상태면
+            if (_signUpConfirm) // 회원가입 완료상태면
             {
                 signUpPanel.SetActive(false); // 회원가입 판넬 비활성화
                 _signUpConfirm = false; // 회원가입 상태 미완으로 변경
@@ -68,7 +63,7 @@ public class PopupLogin : MonoBehaviour
 
     public void OnOkButtonClick() // 에러 판넬 Ok버튼
     {
-        if (loginErrorPanel.activeSelf == true) // 로그인 에러 판넬 활성화 상태라면
+        if (loginErrorPanel.activeSelf) // 로그인 에러 판넬 활성화 상태라면
         {
             loginErrorPanel.SetActive(false); // 비활성화로 전환
         }
@@ -83,9 +78,9 @@ public class PopupLogin : MonoBehaviour
         signUpPanel.SetActive(false); // 회원가입 판넬 비활성화
     }
 
-    public void SignUpSaveData() // 회원가입 데이터 저장
+    private void SignUpSaveData() // 회원가입 데이터 저장
     {
-        string id = signUpID.text.Trim();
+        string id = signUpID.text.Trim(); // 공백이 포함되어 있으면 공백 제거한 상태로 저장
         string name = signUpName.text.Trim();
         string passWord = signUpPS.text.Trim();
         string psConfirm = signUpPSConfirm.text.Trim();
@@ -130,11 +125,27 @@ public class PopupLogin : MonoBehaviour
         string userPS = loginPS.text.Trim();
 
         // 첫 번째 요소(w.ID)를 반환하거나 없으면 기본값(null)을 반환함
-        UserData savedUserData = GameManager.Instance.userDataList.FirstOrDefault(w => w.ID == userID);
+        UserData savedUserData = GameManager.Instance.userDataList.FirstOrDefault(w => w.id == userID);
 
-        if (savedUserData.ID == userID) // 저장된 아이디와 입력 아이디가 같으면
+        if (userID == "")
         {
-            if (savedUserData.PS == userPS) // 저장된 비번과 입력 비번이 같으면
+            loginErrorText.text = "아이디를 입력하세요.";
+            loginErrorPanel.SetActive(true);
+
+            return;
+        }
+        
+        if (userPS == "")
+        {
+            loginErrorText.text = "비밀번호를 입력하세요.";
+            loginErrorPanel.SetActive(true);
+
+            return;
+        }
+
+        if (savedUserData != null && savedUserData.id == userID) // 저장된 아이디와 입력 아이디가 같으면
+        {
+            if (savedUserData.ps == userPS) // 저장된 비번과 입력 비번이 같으면
             {
                 GameManager.Instance.CurrentUserInfo(savedUserData); // 게임매니저에 로그인한 유저를 현재 사용 유저로 저장
                 SceneManager.LoadScene("PopupBank"); // 다음 씬으로 이동
