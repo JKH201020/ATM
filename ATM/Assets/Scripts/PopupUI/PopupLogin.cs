@@ -31,13 +31,13 @@ public class PopupLogin : MonoBehaviour
     void Update()
     {
         // 한글 기준으로 한 문자(김 <- 이런식으로)를 완성해야 '*'하나로 인식하는 것 같음
-        // 비밀번호 입력 필드에 포커스가 있을 때만 IME를 끕
+        // 회원가입 창에서 이름 기입할때만 한글이 적용
         // 다른 입력 필드(ID, 이름 등)에는 IME 설정이 영향을 주지 않도록 합니다.
-        if (loginPS.isFocused || signUpPS.isFocused || signUpPSConfirm.isFocused)
+        if (loginID.isFocused || signUpID.isFocused || loginPS.isFocused || signUpPS.isFocused || signUpPSConfirm.isFocused)
         {
             Input.imeCompositionMode = IMECompositionMode.Off;
         }
-        else
+        else // 회원가입 창에서 이름 기입할 때 
         {
             // 다른 입력 필드에 포커스가 있거나 아무것도 포커스되지 않은 경우
             // Unity가 자동으로 IME를 관리하도록 둡니다.

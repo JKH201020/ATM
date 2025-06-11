@@ -3437,7 +3437,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1012624301}
         m_TargetAssemblyTypeName: PopupBank, Assembly-CSharp
-        m_MethodName: InputWithdrawalButtonClick
+        m_MethodName: InputCustomCashButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5254,7 +5254,7 @@ GameObject:
   - component: {fileID: 1207594753}
   - component: {fileID: 1207594754}
   m_Layer: 5
-  m_Name: CustomMoney
+  m_Name: CustomCash
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5319,7 +5319,7 @@ GameObject:
   - component: {fileID: 1260768216}
   - component: {fileID: 1260768217}
   m_Layer: 5
-  m_Name: CustomMoney
+  m_Name: CustomCash
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8993,7 +8993,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1012624301}
         m_TargetAssemblyTypeName: PopupBank, Assembly-CSharp
-        m_MethodName: InputDepositButtonClick
+        m_MethodName: InputCustomCashButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

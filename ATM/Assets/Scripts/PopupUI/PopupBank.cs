@@ -115,12 +115,14 @@ public class PopupBank : MonoBehaviour
             return; // 강제 종료
         }
 
-        if (int.TryParse(remittanceCashText, out int remittanceCash)) // 송금 금액 숫자형으로 변환
+        // 송금 금액 정수형으로 변환이 되었을 경우 (변환되면 true)
+        if (int.TryParse(remittanceCashText, out int remittanceCash))
         {
             // 현재 유저 금액 >= 송금할 금액
             if (GameManager.Instance.CurrentUserData.cash >= remittanceCash)
             {
                 GameManager.Instance.RemittanceCash(targetUser, remittanceCash);
+                remittanceCashInputField.text = "";
             }
             else // 잔액이 부족하면 에러
             {
@@ -145,34 +147,52 @@ public class PopupBank : MonoBehaviour
 
             return; // 강제 종료
         }
-        
+
         Refresh();
     }
 
-    public void InputDepositButtonClick() // 직접 입력 입금 버튼
+    public void InputCustomCashButtonClick() // 직접 입력 입출금 버튼
     {
-        string amountText = depositInputField.text; // 직접 입력 금액 텍스트를 저장
-
-        // 입력 받은 값을 문자열에서 정수형으로 변환시켜 amount변수에 저장
-        // 변환이 되었으면 true
-        if (int.TryParse(amountText, out int amount))
+        if (deposit.activeSelf) // 입금 UI가 활성화 되어있는 경우
         {
-            GameManager.Instance.DepositCash(amount);
-            depositInputField.text = ""; // 문구 초기화
-            Refresh();
+            string amountText = depositInputField.text; // 직접 입력 금액 텍스트를 저장
+
+            // 입력 받은 값을 문자열에서 정수형으로 변환시켜 amount변수에 저장
+            // 변환이 되었으면 true
+            if (int.TryParse(amountText, out int amount))
+            {
+                if (GameManager.Instance.CurrentUserData.cash >= amount)
+                {
+                    GameManager.Instance.DepositCash(amount);
+                    depositInputField.text = ""; // 문구 초기화
+                    Refresh();
+                }
+                else
+                {
+                    bgPanel.SetActive(true);
+                    errorText.text = "잔액이 부족합니다.";
+                }
+            }
         }
-    }
-
-    public void InputWithdrawalButtonClick() // 직접 입력 출금 버튼
-    {
-        string amountText = withdrawalInputField.text; // 직접 입력 금액 텍스트를 저장
-
-        // 입력 받은 값을 문자열에서 정수형으로 변환시켜 amount변수에 저장
-        if (int.TryParse(amountText, out int amount))
+        else // 출금 UI가 활성화 되어있는 경우
         {
-            GameManager.Instance.WithdrawalCash(amount);
-            withdrawalInputField.text = ""; // 문구 초기화
-            Refresh();
+            string amountText = withdrawalInputField.text; // 직접 입력 금액 텍스트를 저장
+
+            // 입력 받은 값을 문자열에서 정수형으로 변환시켜 amount변수에 저장
+            if (int.TryParse(amountText, out int amount))
+            {
+                if (GameManager.Instance.CurrentUserData.balance >= amount)
+                {
+                    GameManager.Instance.WithdrawalCash(amount);
+                    withdrawalInputField.text = ""; // 문구 초기화
+                    Refresh();
+                }
+                else
+                {
+                    bgPanel.SetActive(true);
+                    errorText.text = "잔액이 부족합니다.";
+                }
+            }
         }
     }
 
