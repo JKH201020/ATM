@@ -9,7 +9,7 @@ public class PopupLogin : MonoBehaviour
     private TMP_InputField loginID; // 로그인 아이디
 
     [SerializeField] private TMP_InputField loginPS; // 로그인 비번
-    [SerializeField] private GameObject loginErrorPanel; // 로그인 에러 판넬
+    [SerializeField] private GameObject loginErrorPanel; // 로그인 에러 패널
 
     [Header("회원가입 InputText 할당")] [SerializeField]
     private TMP_InputField signUpID; // 아이디 입력
@@ -21,7 +21,7 @@ public class PopupLogin : MonoBehaviour
     [Header("회원가입 오브젝트 할당")] [SerializeField]
     private GameObject signUpPanel; // 회원가입 판넬
 
-    [SerializeField] private GameObject signUpErrorPanel; // 에러 판넬
+    [SerializeField] private GameObject signUpErrorPanel; // 에러 패널
     [SerializeField] private TextMeshProUGUI signUpErrorText; // 비번 잘못 입력 시 출력되는 문구
 
     private bool _signUpConfirm; // 회원가입이 확인되었는지
@@ -32,7 +32,7 @@ public class PopupLogin : MonoBehaviour
     {
         // 한글 기준으로 한 문자(김 <- 이런식으로)를 완성해야 '*'하나로 인식하는 것 같음
         // 회원가입 창에서 이름 기입할때만 한글이 적용
-        // 다른 입력 필드(ID, 이름 등)에는 IME 설정이 영향을 주지 않도록 합니다.
+        // 다른 입력 필드(ID, 이름 등)에는 IME 설정이 영향을 주지 않도록 함
         if (loginID.isFocused || signUpID.isFocused || loginPS.isFocused || signUpPS.isFocused || signUpPSConfirm.isFocused)
         {
             Input.imeCompositionMode = IMECompositionMode.Off;
@@ -40,14 +40,14 @@ public class PopupLogin : MonoBehaviour
         else // 회원가입 창에서 이름 기입할 때 
         {
             // 다른 입력 필드에 포커스가 있거나 아무것도 포커스되지 않은 경우
-            // Unity가 자동으로 IME를 관리하도록 둡니다.
+            // Unity가 자동으로 IME를 관리하도록 둠
             Input.imeCompositionMode = IMECompositionMode.On;
         }
     }
 
     public void OnSingUpButtonClick() // 회원가입 버튼
     {
-        if (signUpPanel.activeSelf == false) // 회원가입 판넬이 비활성화라면
+        if (signUpPanel.activeSelf == false) // 회원가입 패널 비활성화라면
         {
             // 메인화면 Sign Up버튼 누르면 회원가입 정보 기입 초기화 
             signUpID.text = "";
@@ -56,7 +56,7 @@ public class PopupLogin : MonoBehaviour
             signUpPSConfirm.text = "";
             signUpErrorText.text = "";
 
-            signUpPanel.SetActive(true); // 회원가입 판넬 활성화
+            signUpPanel.SetActive(true); // 회원가입 패널 활성화
         }
         else // 회원가입 판넬 활성화 상태라면
         {
@@ -64,27 +64,27 @@ public class PopupLogin : MonoBehaviour
 
             if (_signUpConfirm) // 회원가입 완료상태면
             {
-                signUpPanel.SetActive(false); // 회원가입 판넬 비활성화
+                signUpPanel.SetActive(false); // 회원가입 패널 비활성화
                 _signUpConfirm = false; // 회원가입 상태 미완으로 변경
             }
         }
     }
 
-    public void OnOkButtonClick() // 에러 판넬 Ok버튼
+    public void OnOkButtonClick() // 에러 패널 Ok버튼
     {
-        if (loginErrorPanel.activeSelf) // 로그인 에러 판넬 활성화 상태라면
+        if (loginErrorPanel.activeSelf) // 로그인 에러 패널 활성화 상태라면
         {
             loginErrorPanel.SetActive(false); // 비활성화로 전환
         }
         else // 로그인 에러 판넬 비활성화 상태라면
         {
-            signUpErrorPanel.SetActive(false); // 회원가입 에러 판넬 비활성화
+            signUpErrorPanel.SetActive(false); // 회원가입 에러 패널 비활성화
         }
     }
 
     public void OnCancelButtonClick() // 회원가입 Cancel버튼 클릭
     {
-        signUpPanel.SetActive(false); // 회원가입 판넬 비활성화
+        signUpPanel.SetActive(false); // 회원가입 패널 비활성화
     }
 
     private void SignUpSaveData() // 회원가입 데이터 저장
@@ -97,21 +97,21 @@ public class PopupLogin : MonoBehaviour
 
         if (newID.Contains(" ")) // 아이디에 공백이 있을 경우
         {
-            signUpErrorPanel.SetActive(true); // 에러 판넬 활성화
+            signUpErrorPanel.SetActive(true); // 에러 패널 활성화
             signUpErrorText.text = "아이디를 확인해주세요."; // 에러문구
             return;
         }
 
         if (newName.Contains(" ")) // 이름에 공백이 있을 경우
         {
-            signUpErrorPanel.SetActive(true); // 에러 판넬 활성화
+            signUpErrorPanel.SetActive(true); // 에러 패널 활성화
             signUpErrorText.text = "이름을 확인해주세요."; // 에러문구
             return;
         }
 
         if (newPassWord != newPSConfirm) // 비밀번호와 확인 비밀번호가 다를 경우
         {
-            signUpErrorPanel.SetActive(true); // 에러 판넬 활성화
+            signUpErrorPanel.SetActive(true); // 에러 패널 활성화
             signUpErrorText.text = "비밀번호를 확인해주세요."; // 에러문구
             return;
         }
