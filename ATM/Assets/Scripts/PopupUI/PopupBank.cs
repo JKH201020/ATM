@@ -10,7 +10,7 @@ public class PopupBank : MonoBehaviour
     [SerializeField] public GameObject withdrawal; // 출금 오브젝트
     [SerializeField] public GameObject remittance; // 송금 오브젝트
     [SerializeField] private GameObject atm; // ATM 오브젝트
-    [SerializeField] private GameObject bgPanel; // 잔액부족 판넬
+    [SerializeField] private GameObject bgPanel; // 잔액부족 패널
     [SerializeField] private TMP_InputField depositInputField; // 입금 직접 입력 오브젝트
     [SerializeField] private TMP_InputField withdrawalInputField; // 출금 직접 입력 오브젝트
     [SerializeField] private TMP_InputField remittanceTargetInputField; // 송금 대상 오브젝트
@@ -196,7 +196,7 @@ public class PopupBank : MonoBehaviour
         }
     }
 
-    public void PanelOk() // 금액부족 판넬 Ok버튼
+    public void PanelOk() // 금액부족 패널 Ok버튼
     {
         bgPanel.SetActive(false);
     }
