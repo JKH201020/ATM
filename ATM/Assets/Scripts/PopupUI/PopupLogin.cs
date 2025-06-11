@@ -19,7 +19,7 @@ public class PopupLogin : MonoBehaviour
     [SerializeField] private TMP_InputField signUpPSConfirm; // 비번 확인
 
     [Header("회원가입 오브젝트 할당")] [SerializeField]
-    private GameObject signUpPanel; // 회원가입 판넬
+    private GameObject signUpPanel; // 회원가입 패널
 
     [SerializeField] private GameObject signUpErrorPanel; // 에러 패널
     [SerializeField] private TextMeshProUGUI signUpErrorText; // 비번 잘못 입력 시 출력되는 문구
@@ -58,7 +58,7 @@ public class PopupLogin : MonoBehaviour
 
             signUpPanel.SetActive(true); // 회원가입 패널 활성화
         }
-        else // 회원가입 판넬 활성화 상태라면
+        else // 회원가입 패널 활성화 상태라면
         {
             SignUpSaveData(); // 회원가입 데이터 저장
 
@@ -76,7 +76,7 @@ public class PopupLogin : MonoBehaviour
         {
             loginErrorPanel.SetActive(false); // 비활성화로 전환
         }
-        else // 로그인 에러 판넬 비활성화 상태라면
+        else // 로그인 에러 패널 비활성화 상태라면
         {
             signUpErrorPanel.SetActive(false); // 회원가입 에러 패널 비활성화
         }
